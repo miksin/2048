@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Tile from "./Tile.svelte";
+	import Tile from './Tile.svelte';
 
 	const tileNumbers = Array.from(Array(16).keys());
 	const items = [2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048];

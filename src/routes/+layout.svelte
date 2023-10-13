@@ -6,6 +6,6 @@
 		padding: 0;
 		background-color: var(--base-color-1);
 		color: var(--base-color-4);
-		font-family: PixelifySans, Helvetica, sans-serif;
+		font-family: Dosis, Helvetica, sans-serif;
 	}
 </style>

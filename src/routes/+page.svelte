@@ -15,11 +15,11 @@
 		align-items: center;
 		justify-content: center;
 		min-height: 100vh;
+		gap: 2rem;
 	}
 
 	.title {
-		font-family: var(--pixel-font);
+		font-family: PixelifySans;
 		font-size: 8rem;
-		margin-bottom: 1rem;
 	}
 </style>
