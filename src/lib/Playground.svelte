@@ -1,31 +1,17 @@
 <script lang="ts">
 	import Tile from './Tile.svelte';
-
-	const tileNumbers = Array.from(Array(16).keys());
-	const items = [2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048];
-
-	const numToX = (n: number) => n % 4;
-	const numToY = (n: number) => Math.floor(n / 4);
+	import TileContainer from './TileContainer.svelte';
 </script>
 
 <div class="playground">
-	{#each tileNumbers as tileNumber}
-		<div class="container" style:--x={numToX(tileNumber)} style:--y={numToY(tileNumber)}>
-			<Tile num={items[tileNumber % items.length]} />
-		</div>
-	{/each}
+	<TileContainer position={3}><Tile num={2} /></TileContainer>
+	<TileContainer position={7}><Tile num={4} /></TileContainer>
+	<TileContainer position={1}><Tile num={8} /></TileContainer>
+	<TileContainer position={10}><Tile num={16} /></TileContainer>
+	<TileContainer position={0}><Tile num={512} /></TileContainer>
 </div>
 
 <style>
-	.container {
-		position: absolute;
-		left: calc(var(--x) * 25%);
-		top: calc(var(--y) * 25%);
-		width: 25%;
-		height: 25%;
-		border: 4px solid transparent;
-	}
-
 	.playground {
 		width: 512px;
 		height: 512px;

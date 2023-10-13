@@ -25,7 +25,7 @@
 			}
 		}
 
-		@for $i from 1 through 3 {
+		@for $i from 1 through 2 {
 			&.--#{$i} {
 				color: var(--base-color-4);
 			}
