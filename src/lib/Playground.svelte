@@ -9,6 +9,7 @@
   <TileContainer position={1}><Tile level={3} /></TileContainer>
   <TileContainer position={10}><Tile level={4} /></TileContainer>
   <TileContainer position={0}><Tile level={9} /></TileContainer>
+  <TileContainer position={14}><Tile level={11} /></TileContainer>
 </div>
 
 <style>

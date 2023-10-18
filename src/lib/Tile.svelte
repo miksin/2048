@@ -14,7 +14,7 @@
   class:bg-pink-700={level === 8}
   class:bg-pink-800={level === 9}
   class:bg-pink-900={level === 10}
-  class:bg-pink-850={level === 11}
+  class:bg-pink-950={level === 11}
 >
   <h6
     class="text-5xl font-bold"
