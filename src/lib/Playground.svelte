@@ -4,11 +4,11 @@
 </script>
 
 <div class="playground">
-	<TileContainer position={3}><Tile num={2} /></TileContainer>
-	<TileContainer position={7}><Tile num={4} /></TileContainer>
-	<TileContainer position={1}><Tile num={8} /></TileContainer>
-	<TileContainer position={10}><Tile num={16} /></TileContainer>
-	<TileContainer position={0}><Tile num={512} /></TileContainer>
+	<TileContainer position={3}><Tile level={1} /></TileContainer>
+	<TileContainer position={7}><Tile level={2} /></TileContainer>
+	<TileContainer position={1}><Tile level={3} /></TileContainer>
+	<TileContainer position={10}><Tile level={4} /></TileContainer>
+	<TileContainer position={0}><Tile level={9} /></TileContainer>
 </div>
 
 <style>

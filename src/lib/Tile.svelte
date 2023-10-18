@@ -1,40 +1,26 @@
 <script lang="ts">
-	export let num: number | undefined;
-	const level = num ? Math.log2(num) : undefined;
+	export let level: number;
 </script>
 
-<div class={`tile ${level ? `--${level}` : ''}`}>
-	<h6>{num}</h6>
+<div
+	class="w-full h-full flex items-center justify-center rounded"
+	class:bg-pink-50={level === 1}
+	class:bg-pink-100={level === 2}
+	class:bg-pink-200={level === 3}
+	class:bg-pink-300={level === 4}
+	class:bg-pink-400={level === 5}
+	class:bg-pink-500={level === 6}
+	class:bg-pink-600={level === 7}
+	class:bg-pink-700={level === 8}
+	class:bg-pink-800={level === 9}
+	class:bg-pink-900={level === 10}
+	class:bg-pink-850={level === 11}
+>
+	<h6
+		class="text-5xl font-bold"
+		class:text-stone-950={level <= 3}
+		class:text-stone-50={level > 3}
+	>
+		{Math.pow(2, level)}
+	</h6>
 </div>
-
-<style lang="scss">
-	.tile {
-		color: white;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		border-radius: 4px;
-		font-size: 64px;
-		font-weight: bold;
-		width: 100%;
-		height: 100%;
-
-		@for $i from 1 through 11 {
-			&.--#{$i} {
-				background-color: var(--tile-color-#{$i});
-			}
-		}
-
-		@for $i from 1 through 2 {
-			&.--#{$i} {
-				color: var(--base-color-4);
-			}
-		}
-
-		@for $i from 7 through 11 {
-			&.--#{$i} {
-				font-size: 48px;
-			}
-		}
-	}
-</style>
