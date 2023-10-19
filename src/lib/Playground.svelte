@@ -1,14 +1,15 @@
 <script lang="ts">
   import TileContainer from "./TileContainer.svelte";
   import type { Tile } from "./types";
+  import { getUniqKey } from "./utils";
 
   const sampleTiles = [
-    { key: 0, position: { x: 1, y: 0 }, level: 1 },
-    { key: 1, position: { x: 3, y: 1 }, level: 2 },
-    { key: 2, position: { x: 0, y: 0 }, level: 3 },
-    { key: 3, position: { x: 3, y: 2 }, level: 4 },
-    { key: 4, position: { x: 0, y: 1 }, level: 9 },
-    { key: 5, position: { x: 2, y: 3 }, level: 11 },
+    { key: getUniqKey(), position: { x: 1, y: 0 }, level: 1 },
+    { key: getUniqKey(), position: { x: 3, y: 1 }, level: 2 },
+    { key: getUniqKey(), position: { x: 0, y: 0 }, level: 3 },
+    { key: getUniqKey(), position: { x: 3, y: 2 }, level: 4 },
+    { key: getUniqKey(), position: { x: 0, y: 1 }, level: 9 },
+    { key: getUniqKey(), position: { x: 2, y: 3 }, level: 11 },
   ] satisfies Tile[];
 </script>
 
