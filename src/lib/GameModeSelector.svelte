@@ -10,8 +10,8 @@
     const params = new URLSearchParams($page.url.searchParams);
     const newMode = getMode(value);
     params.set("mode", newMode);
-    goto(`?${params.toString()}`);
     $gameMode = newMode;
+    goto(`?${params.toString()}`);
   };
 </script>
 
