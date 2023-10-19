@@ -1,4 +1,6 @@
 <script lang="ts">
+  import type { Level } from "./types";
+
   export let level: Level;
 </script>
 
