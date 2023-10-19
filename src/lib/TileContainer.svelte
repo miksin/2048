@@ -10,8 +10,7 @@
 </script>
 
 <div
-  class={"absolute h-1/4 w-1/4 border-4 border-solid border-transparent " +
-    positionClassNames}
+  class={`absolute h-1/4 w-1/4 border-4 border-solid border-transparent ${positionClassNames}`}
 >
   <slot />
 </div>

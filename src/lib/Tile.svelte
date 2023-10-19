@@ -19,16 +19,10 @@
   class:bg-sky-950={level === 11}
 >
   <h6
-    class="sm:text-4xl text-3xl font-bold"
+    class="font-dosis text-3xl font-bold xs:text-4xl sm:text-5xl"
     class:text-stone-950={level <= 3}
     class:text-stone-50={level > 3}
   >
     {Math.pow(2, level)}
   </h6>
 </div>
-
-<style>
-  h6 {
-    font-family: Dosis;
-  }
-</style>

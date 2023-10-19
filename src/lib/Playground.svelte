@@ -3,7 +3,9 @@
   import TileContainer from "./TileContainer.svelte";
 </script>
 
-<div class="w-80 h-80 sm:w-96 sm:h-96 bg-violet-200 border-violet-200 relative border-solid border-4 rounded-md">
+<div
+  class="relative h-80 w-80 rounded-md border-4 border-solid border-violet-200 bg-violet-200 xs:h-96 xs:w-96 sm:h-128 sm:w-128"
+>
   <TileContainer position={3}><Tile level={1} /></TileContainer>
   <TileContainer position={7}><Tile level={2} /></TileContainer>
   <TileContainer position={1}><Tile level={3} /></TileContainer>
