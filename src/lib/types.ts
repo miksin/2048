@@ -11,4 +11,13 @@ type IntRange<F extends number, T extends number> = Exclude<
 >;
 
 export type Level = IntRange<1, 12>;
-export type Position = IntRange<0, 16>;
+export type Position = {
+  x: IntRange<0, 4>;
+  y: IntRange<0, 4>;
+};
+
+export type Tile = {
+  key: number;
+  level: Level;
+  position: Position;
+};
