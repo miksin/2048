@@ -17,6 +17,9 @@ export default {
       spacing: {
         128: "32rem",
       },
+      lineHeight: {
+        narrow: "0.75",
+      },
     },
   },
   plugins: [],

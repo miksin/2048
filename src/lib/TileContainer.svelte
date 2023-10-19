@@ -1,8 +1,8 @@
 <script lang="ts">
-  import { page } from "$app/stores";
   import type { Tile } from "$lib/types";
   import { LevelToBgClass, xToLeftClass, yToTopClass } from "./constants";
   import { GameModeUtils, getMode } from "./gameMode";
+  import { gameMode } from "./store";
 
   export let tile: Tile;
   const {
@@ -10,8 +10,7 @@
     level,
   } = tile;
 
-  const { renderTile } =
-    GameModeUtils[getMode($page.url.searchParams.get("mode"))];
+  $: ({ renderTile } = GameModeUtils[$gameMode]);
 </script>
 
 <div
@@ -21,7 +20,7 @@
     class={`flex h-full w-full items-center justify-center overflow-hidden rounded ${LevelToBgClass[level]}`}
   >
     <h6
-      class="break-all font-dosis text-3xl font-bold xs:text-4xl sm:text-5xl"
+      class="break-all font-dosis text-3xl font-bold !leading-narrow xs:text-4xl sm:text-5xl"
       class:text-stone-950={level <= 3}
       class:text-stone-50={level > 3}
     >

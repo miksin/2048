@@ -26,7 +26,7 @@ const defaultGameModeUtils: GameModeUtils = {
 export const GameModeUtils: Record<GameMode, GameModeUtils> = {
   [GameMode.Binary]: {
     ...defaultGameModeUtils,
-    renderTile: (tile) => Math.pow(2, tile.level).toString(2),
+    renderTile: (tile) => Math.pow(2, tile.level).toString(2).padStart(12, "0"),
   },
   [GameMode.Decimal]: {
     ...defaultGameModeUtils,
