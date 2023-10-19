@@ -13,22 +13,3 @@
   font-style: normal;
   font-display: swap;
 }
-
-:root {
-  --base-color-1: #fff2d8;
-  --base-color-2: #ead7bb;
-  --base-color-3: #bca37f;
-  --base-color-4: #113946;
-
-  --tile-color-1: #fef2f4;
-  --tile-color-2: #fcc8d1;
-  --tile-color-3: #ffabab;
-  --tile-color-4: #eb8787;
-  --tile-color-5: #e35f85;
-  --tile-color-6: #d14d72;
-  --tile-color-7: #bf365d;
-  --tile-color-8: #b02049;
-  --tile-color-9: #a4123c;
-  --tile-color-10: #980931;
-  --tile-color-11: #7f0024;
-}

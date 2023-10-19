@@ -3,7 +3,7 @@
   import TileContainer from "./TileContainer.svelte";
 </script>
 
-<div class="playground">
+<div class="w-80 h-80 sm:w-96 sm:h-96 bg-violet-200 border-violet-200 relative border-solid border-4 rounded-md">
   <TileContainer position={3}><Tile level={1} /></TileContainer>
   <TileContainer position={7}><Tile level={2} /></TileContainer>
   <TileContainer position={1}><Tile level={3} /></TileContainer>
@@ -11,22 +11,3 @@
   <TileContainer position={0}><Tile level={9} /></TileContainer>
   <TileContainer position={14}><Tile level={11} /></TileContainer>
 </div>
-
-<style>
-  .playground {
-    width: 512px;
-    height: 512px;
-
-    position: relative;
-    background-color: var(--base-color-2);
-    border-radius: 6px;
-    border: 4px solid var(--base-color-2);
-  }
-
-  @media screen and (max-width: 512px) {
-    .playground {
-      width: 300px;
-      height: 300px;
-    }
-  }
-</style>

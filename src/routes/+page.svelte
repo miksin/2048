@@ -2,23 +2,13 @@
   import Playground from "$lib/Playground.svelte";
 </script>
 
-<div class="main">
-  <h1 class="title">2048</h1>
+<div class="main flex flex-col items-center justify-center min-h-screen gap-8">
+  <h1 class="text-7xl sm:text-8xl text-violet-950">2048</h1>
   <Playground />
 </div>
 
 <style>
-  .main {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    min-height: 100vh;
-    gap: 2rem;
-  }
-
-  .title {
+  h1 {
     font-family: PixelifySans;
-    font-size: 8rem;
   }
 </style>
