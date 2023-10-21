@@ -14,7 +14,7 @@ type GameModeUtils = {
 };
 
 const defaultGameModeUtils: GameModeUtils = {
-  render: level => `${level}`,
+  render: (level) => `${level}`,
   merge: (a, b) => {
     const next = a + 1;
     if (a === b && Level.fit(next)) return next;
@@ -25,11 +25,11 @@ const defaultGameModeUtils: GameModeUtils = {
 export const GameModeUtils: Record<GameMode, GameModeUtils> = {
   [GameMode.Binary]: {
     ...defaultGameModeUtils,
-    render: level => Math.pow(2, level).toString(2).padStart(12, "0"),
+    render: (level) => Math.pow(2, level).toString(2).padStart(12, "0"),
   },
   [GameMode.Decimal]: {
     ...defaultGameModeUtils,
-    render: level => `${Math.pow(2, level)}`,
+    render: (level) => `${Math.pow(2, level)}`,
   },
   [GameMode.Rome]: {
     ...defaultGameModeUtils,
