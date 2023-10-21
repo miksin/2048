@@ -1,4 +1,5 @@
 import { getRestPositions, getTileMap, pick } from "$lib/utils";
+import type { GameModeUtils } from "./GameMode";
 import { Position, type Level, Tile } from "./Tile";
 
 export const GameState = {
@@ -55,7 +56,7 @@ export const GameEngine = {
     },
     tiles: [],
   }),
-  next: (prev: GameEngine): GameEngine => {
+  next: (prev: GameEngine, utils: GameModeUtils): GameEngine => {
     switch (prev.gameState) {
       case GameState.Init: {
         const restPositions = getRestPositions(
@@ -107,12 +108,12 @@ export const GameEngine = {
             } else {
               const existTile = tileMap[x][y];
               if (existTile) {
-                if (existTile.level !== target.level) {
+                const nextLevel = utils.merge(existTile.level, target.level);
+                if (nextLevel === false) {
                   const position = { x: x + 1, y } as Position;
                   moveTile(target, position, tileMap, queues);
                 } else {
-                  const level = (existTile.level + 1) as Level;
-                  mergeTile(target, existTile, level, tileMap, queues);
+                  mergeTile(target, existTile, nextLevel, tileMap, queues);
                 }
                 break;
               }

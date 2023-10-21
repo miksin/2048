@@ -8,7 +8,7 @@ export const GameMode = {
 } as const;
 export type GameMode = (typeof GameMode)[keyof typeof GameMode];
 
-type GameModeUtils = {
+export type GameModeUtils = {
   render: (level: Level) => string;
   merge: (a: Level, b: Level) => Level | false;
 };

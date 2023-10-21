@@ -1,11 +1,14 @@
 <script lang="ts">
   import TileContainer from "./TileContainer.svelte";
   import { GameEngine, GameState } from "./models/GameEngine";
+  import { GameModeUtils } from "./models/GameMode";
+  import { gameMode } from "./store";
 
+  $: utils = GameModeUtils[$gameMode];
   let gameEngine = GameEngine.init();
 
   $: {
-    const next = GameEngine.next(gameEngine);
+    const next = GameEngine.next(gameEngine, utils);
     if (gameEngine.gameState !== next.gameState) {
       const delay = gameEngine.gameState === GameState.Trasitioning ? 300 : 0;
       setTimeout(() => {
@@ -31,16 +34,12 @@
       return null;
     })();
     if (nextState) {
-      gameEngine = GameEngine.next({ ...gameEngine, gameState: nextState });
+      gameEngine = GameEngine.next(
+        { ...gameEngine, gameState: nextState },
+        utils,
+      );
     }
   };
-
-  $: {
-    console.log(
-      "tiles",
-      gameEngine.tiles.map((t) => t.key),
-    );
-  }
 </script>
 
 <div
