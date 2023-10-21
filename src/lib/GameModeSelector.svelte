@@ -1,17 +1,8 @@
 <script lang="ts">
-  import { goto } from "$app/navigation";
-  import { page } from "$app/stores";
   import { GameMode } from "$lib/models/GameMode";
   import { gameMode } from "$lib/store";
-  import { getGameMode } from "./utils";
 
-  const udpateMode = (value: string) => {
-    const params = new URLSearchParams($page.url.searchParams);
-    const newMode = getGameMode(value);
-    params.set("mode", newMode);
-    $gameMode = newMode;
-    goto(`?${params.toString()}`);
-  };
+  const udpateMode = (value: string) => ($gameMode = value as GameMode);
 </script>
 
 <div class="flex flex-row items-center gap-2">
