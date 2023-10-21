@@ -114,6 +114,7 @@ export const GameEngine = {
                   const level = (existTile.level + 1) as Level;
                   mergeTile(target, existTile, level, tileMap, queues);
                 }
+                break;
               }
             }
           }
@@ -193,6 +194,10 @@ const mergeTile = (
   queues.update.push({
     key: exist.key,
     level,
+    position: exist.position,
+  });
+  queues.update.push({
+    ...target,
     position: exist.position,
   });
   queues.destroy.push({
