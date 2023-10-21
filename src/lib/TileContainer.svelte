@@ -4,17 +4,17 @@
   import { gameMode } from "./store";
 
   const LevelToBgClass: Record<Level, string> = {
-    [1]: "bg-sky-50",
-    [2]: "bg-sky-100",
-    [3]: "bg-sky-200",
-    [4]: "bg-sky-300",
-    [5]: "bg-sky-400",
-    [6]: "bg-sky-500",
-    [7]: "bg-sky-600",
-    [8]: "bg-sky-700",
-    [9]: "bg-sky-800",
-    [10]: "bg-sky-900",
-    [11]: "bg-sky-950",
+    [1]: "bg-tile-50",
+    [2]: "bg-tile-100",
+    [3]: "bg-tile-200",
+    [4]: "bg-tile-300",
+    [5]: "bg-tile-400",
+    [6]: "bg-tile-500",
+    [7]: "bg-tile-600",
+    [8]: "bg-tile-700",
+    [9]: "bg-tile-800",
+    [10]: "bg-tile-900",
+    [11]: "bg-tile-950",
   } as const;
 
   const levelToZClass: Record<Level, string> = {
@@ -51,11 +51,10 @@
   >
     <h6
       class="break-all font-dosis text-2xl font-bold !leading-narrow xs:text-4xl sm:text-5xl"
-      class:text-stone-950={level <= 3}
-      class:text-stone-50={level > 3}
+      class:text-neutral-950={level <= 2}
+      class:text-neutral-50={level > 2}
     >
       {render(level)}
     </h6>
-    <p>{tile.key}</p>
   </div>
 </div>
