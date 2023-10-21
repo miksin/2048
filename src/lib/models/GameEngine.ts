@@ -162,6 +162,24 @@ export const GameEngine = {
           tiles: prev.tiles.filter((t) => !keys.has(t.key)),
         };
       }
+
+      case GameState.Check: {
+        const restPositions = getRestPositions(
+          prev.tiles.map((t) => t.position),
+        );
+        return {
+          ...prev,
+          gameState: GameState.Deal,
+          queues: {
+            ...prev.queues,
+            create: pick(restPositions, 2).map((position) => ({
+              type: "create",
+              level: 1,
+              position,
+            })),
+          },
+        };
+      }
     }
     return prev;
   },
