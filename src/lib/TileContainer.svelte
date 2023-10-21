@@ -26,7 +26,7 @@
     level,
   } = tile;
 
-  $: ({ renderTile } = GameModeUtils[$gameMode]);
+  $: ({ render } = GameModeUtils[$gameMode]);
 </script>
 
 <div
@@ -40,7 +40,7 @@
       class:text-stone-950={level <= 3}
       class:text-stone-50={level > 3}
     >
-      {renderTile(tile)}
+      {render(level)}
     </h6>
   </div>
 </div>

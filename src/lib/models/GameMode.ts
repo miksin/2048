@@ -9,12 +9,12 @@ export const GameMode = {
 export type GameMode = (typeof GameMode)[keyof typeof GameMode];
 
 type GameModeUtils = {
-  renderTile: (tile: Tile) => string;
+  render: (level: Level) => string;
   merge: (a: Level, b: Level) => Level | false;
 };
 
 const defaultGameModeUtils: GameModeUtils = {
-  renderTile: (tile) => `${tile.level}`,
+  render: level => `${level}`,
   merge: (a, b) => {
     const next = a + 1;
     if (a === b && Level.fit(next)) return next;
@@ -25,16 +25,16 @@ const defaultGameModeUtils: GameModeUtils = {
 export const GameModeUtils: Record<GameMode, GameModeUtils> = {
   [GameMode.Binary]: {
     ...defaultGameModeUtils,
-    renderTile: (tile) => Math.pow(2, tile.level).toString(2).padStart(12, "0"),
+    render: level => Math.pow(2, level).toString(2).padStart(12, "0"),
   },
   [GameMode.Decimal]: {
     ...defaultGameModeUtils,
-    renderTile: (tile) => `${Math.pow(2, tile.level)}`,
+    render: level => `${Math.pow(2, level)}`,
   },
   [GameMode.Rome]: {
     ...defaultGameModeUtils,
-    renderTile: (tile) => {
-      switch (tile.level) {
+    render: (level) => {
+      switch (level) {
         case 1:
           return "II";
         case 2:
@@ -67,8 +67,8 @@ export const GameModeUtils: Record<GameMode, GameModeUtils> = {
       if (Math.abs(a - b) === 1 && Level.fit(next)) return next;
       return false;
     },
-    renderTile: (tile) => {
-      switch (tile.level) {
+    render: (level) => {
+      switch (level) {
         case 1:
           return "2";
         case 2:
