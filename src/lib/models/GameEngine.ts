@@ -175,7 +175,7 @@ const moveTile = (
   if (to.x === target.position.x && to.y === target.position.y) return;
 
   tileMap[target.position.x][target.position.y] = null;
-  tileMap[to.x][to.y] = target;
+  tileMap[to.x][to.y] = { ...target, position: to };
   queues.update.push({
     key: target.key,
     level: target.level,
