@@ -1,9 +1,9 @@
 <script lang="ts">
   import TileContainer from "./TileContainer.svelte";
-  import type { Tile } from "./types";
+  import type { Tile } from "./models/Tile";
   import { getUniqKey } from "./utils";
 
-  const sampleTiles = [
+  const sampleTiles: Tile[] = [
     { key: getUniqKey(), position: { x: 1, y: 0 }, level: 1 },
     { key: getUniqKey(), position: { x: 3, y: 1 }, level: 2 },
     { key: getUniqKey(), position: { x: 0, y: 0 }, level: 3 },

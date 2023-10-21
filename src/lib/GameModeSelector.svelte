@@ -1,8 +1,14 @@
 <script lang="ts">
   import { goto } from "$app/navigation";
   import { page } from "$app/stores";
-  import { GameMode, getMode } from "$lib/gameMode";
+  import { GameMode } from "$lib/models/GameMode";
   import { gameMode } from "$lib/store";
+
+  const getMode = (str: string | null): GameMode => {
+    return (
+      Object.values(GameMode).find((mode) => mode === str) ?? GameMode.Decimal
+    );
+  };
 
   $gameMode = getMode($page.url.searchParams.get("mode"));
 

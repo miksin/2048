@@ -1,26 +1,25 @@
-import type { Tile } from "./types";
+import { Level, type Tile } from "./Tile";
 
 export const GameMode = {
   Binary: "binary",
   Decimal: "decimal",
   Rome: "rome",
+  Fibonacci: "fibonacci",
 } as const;
 export type GameMode = (typeof GameMode)[keyof typeof GameMode];
 
-export const getMode = (str: string | null): GameMode => {
-  return (
-    Object.values(GameMode).find((mode) => mode === str) ?? GameMode.Decimal
-  );
-};
-
 type GameModeUtils = {
   renderTile: (tile: Tile) => string;
-  canMerge: (a: Tile, b: Tile) => boolean;
+  merge: (a: Level, b: Level) => Level | false;
 };
 
 const defaultGameModeUtils: GameModeUtils = {
   renderTile: (tile) => `${tile.level}`,
-  canMerge: (a, b) => a.level === b.level,
+  merge: (a, b) => {
+    const next = a + 1;
+    if (a === b && Level.fit(next)) return next;
+    return false;
+  },
 };
 
 export const GameModeUtils: Record<GameMode, GameModeUtils> = {
@@ -58,6 +57,40 @@ export const GameModeUtils: Record<GameMode, GameModeUtils> = {
           return "MXXIV";
         case 11:
           return "MMXLVIII";
+      }
+    },
+  },
+  [GameMode.Fibonacci]: {
+    ...defaultGameModeUtils,
+    merge: (a, b) => {
+      const next = Math.max(a, b) + 1;
+      if (Math.abs(a - b) === 1 && Level.fit(next)) return next;
+      return false;
+    },
+    renderTile: (tile) => {
+      switch (tile.level) {
+        case 1:
+          return "2";
+        case 2:
+          return "3";
+        case 3:
+          return "5";
+        case 4:
+          return "8";
+        case 5:
+          return "13";
+        case 6:
+          return "21";
+        case 7:
+          return "34";
+        case 8:
+          return "55";
+        case 9:
+          return "89";
+        case 10:
+          return "144";
+        case 11:
+          return "233";
       }
     },
   },

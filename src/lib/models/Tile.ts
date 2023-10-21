@@ -1,3 +1,5 @@
+import { getUniqKey } from "$lib/utils";
+
 type Enumerate<
   N extends number,
   Acc extends number[] = [],
@@ -11,6 +13,10 @@ type IntRange<F extends number, T extends number> = Exclude<
 >;
 
 export type Level = IntRange<1, 12>;
+export const Level = {
+  fit: (x: number): x is Level => Number.isInteger(x) && x >= 1 && x < 12,
+} as const;
+
 export type Position = {
   x: IntRange<0, 4>;
   y: IntRange<0, 4>;
@@ -20,4 +26,13 @@ export type Tile = {
   key: number;
   level: Level;
   position: Position;
+};
+
+export const Tile = {
+  new: (args?: Partial<Tile>): Tile => ({
+    key: getUniqKey(),
+    level: 1,
+    position: { x: 0, y: 0 },
+    ...args,
+  }),
 };
