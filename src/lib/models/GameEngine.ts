@@ -10,6 +10,7 @@ export const GameState = {
   MoveUp: "moveUp",
   MoveDown: "moveDown",
   Trasition: "transition",
+  Trasitioning: "transitioning",
   Destroy: "destroy",
   Check: "check",
   Win: "win",
@@ -64,7 +65,7 @@ export const GameEngine = {
           ...prev,
           gameState: GameState.Deal,
           queues: {
-            create: pick(restPositions, 2).map((position) => ({
+            create: pick(restPositions, 4).map((position) => ({
               type: "create",
               level: 1,
               position,
@@ -74,6 +75,7 @@ export const GameEngine = {
           },
         };
       }
+
       case GameState.Deal: {
         const tiles = [
           ...prev.tiles,
@@ -88,6 +90,7 @@ export const GameEngine = {
           tiles,
         };
       }
+
       case GameState.MoveLeft: {
         const queues = GameEngine.init().queues;
         const tiles = prev.tiles
@@ -120,6 +123,43 @@ export const GameEngine = {
           gameState: GameState.Trasition,
           queues,
         };
+      }
+
+      case GameState.Trasition: {
+        const tiles = prev.tiles.slice();
+        prev.queues.update.forEach(({ key, level, position }) => {
+          const index = tiles.findIndex(t => t.key === key);
+          tiles[index] = { ...tiles[index], level, position };
+        });
+        return {
+          ...prev,
+          gameState: GameState.Trasitioning,
+          queues: {
+            ...prev.queues,
+            update: [],
+          },
+          tiles,
+        }
+      }
+
+      case GameState.Trasitioning: {
+        return {
+          ...prev,
+          gameState: GameState.Destroy,
+        }
+      }
+
+      case GameState.Destroy: {
+        const keys = new Set(prev.queues.destroy.map(d => d.key));
+        return {
+          ...prev,
+          gameState: GameState.Check,
+          queues: {
+            ...prev.queues,
+            destroy: [],
+          },
+          tiles: prev.tiles.filter(t => !keys.has(t.key)),
+        }
       }
     }
     return prev;

@@ -21,16 +21,16 @@
   const yToTopClass = ["top-0", "top-1/4", "top-2/4", "top-3/4"] as const;
 
   export let tile: Tile;
-  const {
+  $: ({
     position: { x, y },
     level,
-  } = tile;
+  } = tile);
 
   $: ({ render } = GameModeUtils[$gameMode]);
 </script>
 
 <div
-  class={`absolute h-1/4 w-1/4 border-4 border-solid border-transparent ${xToLeftClass[x]} ${yToTopClass[y]}`}
+  class={`transition-all duration-300 absolute h-1/4 w-1/4 border-4 border-solid border-transparent ${xToLeftClass[x]} ${yToTopClass[y]}`}
 >
   <div
     class={`flex h-full w-full items-center justify-center overflow-hidden rounded ${LevelToBgClass[level]}`}
@@ -42,5 +42,6 @@
     >
       {render(level)}
     </h6>
+    <p>{tile.key}</p>
   </div>
 </div>

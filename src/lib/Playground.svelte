@@ -7,9 +7,10 @@
   $: {
     const next = GameEngine.next(gameEngine);
     if (gameEngine.gameState !== next.gameState) {
+      const delay = gameEngine.gameState === GameState.Trasitioning ? 300 : 0;
       setTimeout(() => {
         gameEngine = next;
-      }, 0);
+      }, delay);
     }
   }
 
@@ -37,6 +38,7 @@
   $: {
     console.log("state:", gameEngine.gameState);
     console.log("queues:", gameEngine.queues);
+    console.log("tiles:", gameEngine.tiles);
   }
 </script>
 
