@@ -65,7 +65,7 @@ export const GameEngine = {
           ...prev,
           gameState: GameState.Deal,
           queues: {
-            create: pick(restPositions, 4).map((position) => ({
+            create: pick(restPositions, 8).map((position) => ({
               type: "create",
               level: 1,
               position,
@@ -128,7 +128,7 @@ export const GameEngine = {
       case GameState.Trasition: {
         const tiles = prev.tiles.slice();
         prev.queues.update.forEach(({ key, level, position }) => {
-          const index = tiles.findIndex(t => t.key === key);
+          const index = tiles.findIndex((t) => t.key === key);
           tiles[index] = { ...tiles[index], level, position };
         });
         return {
@@ -139,18 +139,18 @@ export const GameEngine = {
             update: [],
           },
           tiles,
-        }
+        };
       }
 
       case GameState.Trasitioning: {
         return {
           ...prev,
           gameState: GameState.Destroy,
-        }
+        };
       }
 
       case GameState.Destroy: {
-        const keys = new Set(prev.queues.destroy.map(d => d.key));
+        const keys = new Set(prev.queues.destroy.map((d) => d.key));
         return {
           ...prev,
           gameState: GameState.Check,
@@ -158,8 +158,8 @@ export const GameEngine = {
             ...prev.queues,
             destroy: [],
           },
-          tiles: prev.tiles.filter(t => !keys.has(t.key)),
-        }
+          tiles: prev.tiles.filter((t) => !keys.has(t.key)),
+        };
       }
     }
     return prev;

@@ -17,6 +17,20 @@
     [11]: "bg-sky-950",
   } as const;
 
+  const levelToZClass: Record<Level, string> = {
+    [1]: "z-[1]",
+    [2]: "z-[2]",
+    [3]: "z-[3]",
+    [4]: "z-[4]",
+    [5]: "z-[5]",
+    [6]: "z-[6]",
+    [7]: "z-[7]",
+    [8]: "z-[8]",
+    [9]: "z-[9]",
+    [10]: "z-[10]",
+    [11]: "z-[11]",
+  };
+
   const xToLeftClass = ["left-0", "left-1/4", "left-2/4", "left-3/4"] as const;
   const yToTopClass = ["top-0", "top-1/4", "top-2/4", "top-3/4"] as const;
 
@@ -30,7 +44,7 @@
 </script>
 
 <div
-  class={`transition-all duration-300 absolute h-1/4 w-1/4 border-4 border-solid border-transparent ${xToLeftClass[x]} ${yToTopClass[y]}`}
+  class={`absolute h-1/4 w-1/4 border-4 border-solid border-transparent transition-all duration-300 ${xToLeftClass[x]} ${yToTopClass[y]} ${levelToZClass[level]}`}
 >
   <div
     class={`flex h-full w-full items-center justify-center overflow-hidden rounded ${LevelToBgClass[level]}`}

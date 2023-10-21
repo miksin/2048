@@ -36,16 +36,17 @@
   };
 
   $: {
-    console.log("state:", gameEngine.gameState);
-    console.log("queues:", gameEngine.queues);
-    console.log("tiles:", gameEngine.tiles);
+    console.log(
+      "tiles",
+      gameEngine.tiles.map((t) => t.key),
+    );
   }
 </script>
 
 <div
   class="relative h-80 w-80 rounded-md border-4 border-solid border-violet-200 bg-violet-200 xs:h-96 xs:w-96 sm:h-128 sm:w-128"
 >
-  {#each gameEngine.tiles as tile}
+  {#each gameEngine.tiles as tile (tile.key)}
     <TileContainer {tile} />
   {/each}
 </div>
