@@ -5,7 +5,10 @@ export const GameState = {
   Init: "init",
   Deal: "deal",
   Play: "play",
-  Calculate: "calculate",
+  MoveLeft: "moveLeft",
+  MoveRight: "moveRight",
+  MoveUp: "moveUp",
+  MoveDown: "moveDown",
   Trasition: "transition",
   Destroy: "destroy",
   Check: "check",
@@ -13,15 +16,6 @@ export const GameState = {
   Lose: "lose",
 } as const;
 export type GameState = (typeof GameState)[keyof typeof GameState];
-
-export const Interaction = {
-  Left: "left",
-  Right: "right",
-  Top: "top",
-  Bottom: "bottom",
-  Reset: "reset",
-} as const;
-export type Interaction = (typeof Interaction)[keyof typeof Interaction];
 
 type TileCreate = {
   type: "create";
@@ -61,9 +55,7 @@ export const GameEngine = {
     },
     tiles: [],
   }),
-  next: (prev: GameEngine, interaction?: Interaction): GameEngine => {
-    if (interaction === Interaction.Reset) return GameEngine.init();
-
+  next: (prev: GameEngine): GameEngine => {
     switch (prev.gameState) {
       case GameState.Init: {
         const restPositions = getRestPositions(

@@ -1,6 +1,6 @@
 <script lang="ts">
   import TileContainer from "./TileContainer.svelte";
-  import { GameEngine } from "./models/GameEngine";
+  import { GameEngine, GameState } from "./models/GameEngine";
 
   let gameEngine = GameEngine.init();
 
@@ -12,6 +12,27 @@
       }, 0);
     }
   }
+
+  const onKeyDown = (key: string) => {
+    if (gameEngine.gameState !== GameState.Play) return;
+
+    const nextState = (() => {
+      switch (key) {
+        case "ArrowLeft":
+          return GameState.MoveLeft;
+        case "ArrowRight":
+          return GameState.MoveRight;
+        case "ArrowUp":
+          return GameState.MoveUp;
+        case "ArrowDown":
+          return GameState.MoveDown;
+      }
+      return null;
+    })();
+    if (nextState) {
+      gameEngine = GameEngine.next({ ...gameEngine, gameState: nextState });
+    }
+  };
 </script>
 
 <div
@@ -21,3 +42,5 @@
     <TileContainer {tile} />
   {/each}
 </div>
+
+<svelte:window on:keydown|preventDefault={(e) => onKeyDown(e.key)} />
