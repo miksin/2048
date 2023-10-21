@@ -1,7 +1,6 @@
 <script lang="ts">
   import { GameModeUtils } from "$lib/models/GameMode";
   import { gameMode } from "$lib/store";
-  import { Tile } from "./models/Tile";
 
   $: ({ render } = GameModeUtils[$gameMode]);
 </script>

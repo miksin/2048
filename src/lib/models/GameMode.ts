@@ -1,4 +1,4 @@
-import { Level, type Tile } from "./Tile";
+import { Level } from "./Tile";
 
 export const GameMode = {
   Decimal: "decimal",

@@ -3,18 +3,11 @@
   import { page } from "$app/stores";
   import { GameMode } from "$lib/models/GameMode";
   import { gameMode } from "$lib/store";
-
-  const getMode = (str: string | null): GameMode => {
-    return (
-      Object.values(GameMode).find((mode) => mode === str) ?? GameMode.Decimal
-    );
-  };
-
-  $gameMode = getMode($page.url.searchParams.get("mode"));
+  import { getGameMode } from "./utils";
 
   const udpateMode = (value: string) => {
     const params = new URLSearchParams($page.url.searchParams);
-    const newMode = getMode(value);
+    const newMode = getGameMode(value);
     params.set("mode", newMode);
     $gameMode = newMode;
     goto(`?${params.toString()}`);

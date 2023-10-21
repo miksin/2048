@@ -1,3 +1,4 @@
+import { GameMode } from "./models/GameMode";
 import { Position } from "./models/Tile";
 
 let incrementNum = 0;
@@ -20,3 +21,6 @@ export const pick = <T>(candidates: T[], needs: number): T[] => {
   const rest = [...candidates.slice(0, index), ...candidates.slice(index + 1)];
   return [candidates[index], ...pick(rest, needs - 1)];
 };
+
+export const getGameMode = (str: string | null) =>
+  Object.values(GameMode).find((mode) => mode === str) ?? GameMode.Decimal;
