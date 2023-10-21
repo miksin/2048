@@ -33,6 +33,11 @@
       gameEngine = GameEngine.next({ ...gameEngine, gameState: nextState });
     }
   };
+
+  $: {
+    console.log("state:", gameEngine.gameState);
+    console.log("queues:", gameEngine.queues);
+  }
 </script>
 
 <div

@@ -1,4 +1,4 @@
-import { getRestPositions, pick } from "$lib/utils";
+import { getRestPositions, getTileMap, pick } from "$lib/utils";
 import { Position, type Level, Tile } from "./Tile";
 
 export const GameState = {
@@ -18,20 +18,17 @@ export const GameState = {
 export type GameState = (typeof GameState)[keyof typeof GameState];
 
 type TileCreate = {
-  type: "create";
   level: Level;
   position: Position;
 };
 
 type TileUpdate = {
-  type: "update";
   key: number;
   level: Level;
   position: Position;
 };
 
 type TileDestroy = {
-  type: "destory";
   key: number;
 };
 
@@ -87,6 +84,73 @@ export const GameEngine = {
           gameState: GameState.Play,
           queues: { ...prev.queues, create: [] },
           tiles,
+        };
+      }
+      case GameState.MoveLeft: {
+        const queues = GameEngine.init().queues;
+        const tiles = prev.tiles
+          .map((tile) => structuredClone(tile))
+          .sort((a, b) => a.position.x - b.position.x);
+        const tileMap = getTileMap(tiles);
+
+        tiles.forEach((target) => {
+          const y = target.position.y;
+          for (let x = target.position.x - 1; x >= -1; x -= 1) {
+            if (x < 0) {
+              const position = { x: 0, y } as Position;
+              if (
+                position.x !== target.position.x ||
+                position.y !== target.position.y
+              ) {
+                queues.update.push({
+                  key: target.key,
+                  level: target.level,
+                  position,
+                });
+                tileMap[target.position.x][target.position.y] = null;
+                tileMap[position.x][position.y] = target;
+              }
+            } else {
+              const existTile = tileMap[x][y];
+              if (existTile) {
+                if (existTile.level !== target.level) {
+                  const position = { x: x + 1, y } as Position;
+                  if (
+                    position.x !== target.position.x ||
+                    position.y !== target.position.y
+                  ) {
+                    queues.update.push({
+                      key: target.key,
+                      level: target.level,
+                      position,
+                    });
+                    tileMap[target.position.x][target.position.y] = null;
+                    tileMap[position.x][position.y] = target;
+                  }
+                } else {
+                  const level = (existTile.level + 1) as Level;
+                  queues.update.push({
+                    key: existTile.key,
+                    level,
+                    position: existTile.position,
+                  });
+                  queues.destroy.push({
+                    key: target.key,
+                  });
+                  tileMap[existTile.position.x][existTile.position.y] = {
+                    ...existTile,
+                    level,
+                  };
+                  tileMap[target.position.x][target.position.y] = null;
+                }
+              }
+            }
+          }
+        });
+        return {
+          ...prev,
+          gameState: GameState.Trasition,
+          queues,
         };
       }
     }
