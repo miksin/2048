@@ -1,8 +1,8 @@
 import { Level, type Tile } from "./Tile";
 
 export const GameMode = {
-  Binary: "binary",
   Decimal: "decimal",
+  Binary: "binary",
   Rome: "rome",
   Fibonacci: "fibonacci",
 } as const;

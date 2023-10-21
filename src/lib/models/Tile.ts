@@ -21,6 +21,10 @@ export type Position = {
   x: IntRange<0, 4>;
   y: IntRange<0, 4>;
 };
+export const Position = {
+  dimensionX: [0, 1, 2, 3],
+  dimensionY: [0, 1, 2, 3],
+} as const;
 
 export type Tile = {
   key: number;
