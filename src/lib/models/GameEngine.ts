@@ -32,13 +32,15 @@ type TileDestroy = {
   key: number;
 };
 
+type Queues = {
+  create: TileCreate[];
+  update: TileUpdate[];
+  destroy: TileDestroy[];
+};
+
 export type GameEngine = {
   gameState: GameState;
-  queues: {
-    create: TileCreate[];
-    update: TileUpdate[];
-    destroy: TileDestroy[];
-  };
+  queues: Queues;
   tiles: Tile[];
 };
 
@@ -97,51 +99,17 @@ export const GameEngine = {
           const y = target.position.y;
           for (let x = target.position.x - 1; x >= -1; x -= 1) {
             if (x < 0) {
-              const position = { x: 0, y } as Position;
-              if (
-                position.x !== target.position.x ||
-                position.y !== target.position.y
-              ) {
-                queues.update.push({
-                  key: target.key,
-                  level: target.level,
-                  position,
-                });
-                tileMap[target.position.x][target.position.y] = null;
-                tileMap[position.x][position.y] = target;
-              }
+              const position = { x: x + 1, y } as Position;
+              moveTile(target, position, tileMap, queues);
             } else {
               const existTile = tileMap[x][y];
               if (existTile) {
                 if (existTile.level !== target.level) {
                   const position = { x: x + 1, y } as Position;
-                  if (
-                    position.x !== target.position.x ||
-                    position.y !== target.position.y
-                  ) {
-                    queues.update.push({
-                      key: target.key,
-                      level: target.level,
-                      position,
-                    });
-                    tileMap[target.position.x][target.position.y] = null;
-                    tileMap[position.x][position.y] = target;
-                  }
+                  moveTile(target, position, tileMap, queues);
                 } else {
                   const level = (existTile.level + 1) as Level;
-                  queues.update.push({
-                    key: existTile.key,
-                    level,
-                    position: existTile.position,
-                  });
-                  queues.destroy.push({
-                    key: target.key,
-                  });
-                  tileMap[existTile.position.x][existTile.position.y] = {
-                    ...existTile,
-                    level,
-                  };
-                  tileMap[target.position.x][target.position.y] = null;
+                  mergeTile(target, existTile, level, tileMap, queues);
                 }
               }
             }
@@ -156,4 +124,43 @@ export const GameEngine = {
     }
     return prev;
   },
+};
+
+const moveTile = (
+  target: Tile,
+  to: Position,
+  tileMap: (Tile | null)[][],
+  queues: Queues,
+) => {
+  if (to.x === target.position.x && to.y === target.position.y) return;
+
+  tileMap[target.position.x][target.position.y] = null;
+  tileMap[to.x][to.y] = target;
+  queues.update.push({
+    key: target.key,
+    level: target.level,
+    position: to,
+  });
+};
+
+const mergeTile = (
+  target: Tile,
+  exist: Tile,
+  level: Level,
+  tileMap: (Tile | null)[][],
+  queues: Queues,
+) => {
+  queues.update.push({
+    key: exist.key,
+    level,
+    position: exist.position,
+  });
+  queues.destroy.push({
+    key: target.key,
+  });
+  tileMap[exist.position.x][exist.position.y] = {
+    ...exist,
+    level,
+  };
+  tileMap[target.position.x][target.position.y] = null;
 };
