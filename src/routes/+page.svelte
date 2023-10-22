@@ -6,7 +6,7 @@
 </script>
 
 <div
-  class="main flex min-h-screen flex-col items-center justify-center gap-4 overflow-hidden"
+  class="main mx-auto flex min-h-screen max-w-xs flex-col items-center justify-center gap-4 overflow-hidden xs:max-w-sm sm:max-w-lg"
 >
   <GameTitle />
   <GameModeSelector />
