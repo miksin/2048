@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="./apple-touch-icon.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="./favicon-32x32.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="./favicon-16x16.png"
+    />
+    <link rel="manifest" href="./site.webmanifest" />
+    <link rel="stylesheet" href="./css/reset.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>2048</title>
+    
+		<link href="./_app/immutable/assets/0.8a16f0b6.css" rel="stylesheet">
+		<link rel="modulepreload" href="./_app/immutable/entry/start.5b7ecbcb.js">
+		<link rel="modulepreload" href="./_app/immutable/chunks/scheduler.860ce166.js">
+		<link rel="modulepreload" href="./_app/immutable/chunks/singletons.10a05269.js">
+		<link rel="modulepreload" href="./_app/immutable/chunks/index.579dc2b2.js">
+		<link rel="modulepreload" href="./_app/immutable/entry/app.673a1133.js">
+		<link rel="modulepreload" href="./_app/immutable/chunks/index.a215d149.js">
+		<link rel="modulepreload" href="./_app/immutable/nodes/0.12348c7a.js">
+		<link rel="modulepreload" href="./_app/immutable/nodes/2.08ea744a.js">
+  </head>
+  <body data-sveltekit-preload-data="hover">
+    <div style="display: contents">  <div class="main flex min-h-screen flex-col items-center justify-center gap-4 overflow-hidden"><h1 class="font-pixel text-7xl text-teal-950 sm:text-9xl">MMXLVIII</h1> <div class="flex flex-row items-center gap-2"><p class="text-lg" data-svelte-h="svelte-87peez">Game Mode:</p> <select class="px-4 py-2 text-lg" value="rome"><option value="decimal">decimal</option><option value="binary">binary</option><option value="rome">rome</option><option value="fibonacci">fibonacci</option></select></div> <div class="relative h-80 w-80 rounded-md border-4 border-solid border-teal-400 bg-teal-400 xs:h-96 xs:w-96 sm:h-128 sm:w-128"> <div class="absolute z-[100] flex h-full w-full flex-col items-center justify-center gap-8 rounded bg-black/50 text-neutral-50 transition-opacity duration-150 opacity-0 pointer-events-none"><h1 class="font-dosis text-2xl font-bold !leading-narrow xs:text-xl sm:text-3xl">LOSE</h1> <button class="rounded-md bg-teal-950 px-6 py-2 hover:bg-teal-700 active:bg-teal-800">Retry</button></div></div> </div> 
+			
+			<script>
+				{
+					__sveltekit_1gsej80 = {
+						base: new URL(".", location).pathname.slice(0, -1),
+						env: {}
+					};
+
+					const element = document.currentScript.parentElement;
+
+					const data = [null,null];
+
+					Promise.all([
+						import("./_app/immutable/entry/start.5b7ecbcb.js"),
+						import("./_app/immutable/entry/app.673a1133.js")
+					]).then(([kit, app]) => {
+						kit.start(app, element, {
+							node_ids: [0, 2],
+							data,
+							form: null,
+							error: null
+						});
+					});
+				}
+			</script>
+		</div>
+  </body>
+</html>
