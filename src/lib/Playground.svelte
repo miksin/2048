@@ -48,10 +48,16 @@
 
   let touchStart: { x: number; y: number } = { x: 0, y: 0 };
 
+  const preventTouchDefault = (e: TouchEvent) => {
+    if (gameEngine.gameState === GameState.Play && e.cancelable) {
+      e.preventDefault();
+    }
+  };
+
   const onTouchStart = (e: TouchEvent) => {
+    preventTouchDefault(e);
     const touch = e.touches.item(0);
     if (touch) {
-      console.log("start");
       touchStart = {
         x: touch.screenX,
         y: touch.screenY,
@@ -60,6 +66,7 @@
   };
 
   const onTouchEnd = (e: TouchEvent) => {
+    preventTouchDefault(e);
     const touch = e.changedTouches.item(0) ?? e.touches.item(0);
     if (touch) {
       const delta = {
@@ -88,6 +95,7 @@
 <div
   class="relative h-80 w-80 rounded-md border-4 border-solid border-teal-400 bg-teal-400 xs:h-96 xs:w-96 sm:h-128 sm:w-128"
   on:touchstart={onTouchStart}
+  on:touchmove={preventTouchDefault}
   on:touchend={onTouchEnd}
 >
   {#each gameEngine.tiles as tile (tile.key)}
