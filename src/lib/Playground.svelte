@@ -1,4 +1,5 @@
 <script lang="ts">
+  import Button from "./Button.svelte";
   import TileContainer from "./TileContainer.svelte";
   import { GameEngine, GameState } from "./models/GameEngine";
   import { GameModeUtils } from "./models/GameMode";
@@ -66,12 +67,7 @@
     >
       {gameEngine.gameState === GameState.Win ? "WIN" : "LOSE"}
     </h1>
-    <button
-      class="rounded-md bg-teal-950 px-6 py-2 hover:bg-teal-700 active:bg-teal-800"
-      on:click={onRetry}
-    >
-      Retry
-    </button>
+    <Button handleClick={onRetry}>Retry</Button>
   </div>
 </div>
 
