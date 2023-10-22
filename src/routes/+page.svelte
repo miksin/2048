@@ -2,6 +2,7 @@
   import GameModeSelector from "$lib/GameModeSelector.svelte";
   import GameTitle from "$lib/GameTitle.svelte";
   import Playground from "$lib/Playground.svelte";
+  import { gameMode } from "$lib/store";
 </script>
 
 <div
@@ -9,5 +10,7 @@
 >
   <GameTitle />
   <GameModeSelector />
-  <Playground />
+  {#key $gameMode}
+    <Playground />
+  {/key}
 </div>

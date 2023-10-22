@@ -11,6 +11,7 @@ export type GameMode = (typeof GameMode)[keyof typeof GameMode];
 export type GameModeUtils = {
   render: (level: Level) => string;
   merge: (a: Level, b: Level) => Level | false;
+  deal: (index: number) => Level;
 };
 
 const defaultGameModeUtils: GameModeUtils = {
@@ -20,6 +21,7 @@ const defaultGameModeUtils: GameModeUtils = {
     if (a === b && Level.fit(next)) return next;
     return false;
   },
+  deal: () => (Math.random() > 0.1 ? 1 : 2),
 };
 
 export const GameModeUtils: Record<GameMode, GameModeUtils> = {
@@ -62,6 +64,7 @@ export const GameModeUtils: Record<GameMode, GameModeUtils> = {
   },
   [GameMode.Fibonacci]: {
     ...defaultGameModeUtils,
+    deal: (i) => (i % 2 === 0 ? 1 : 2),
     merge: (a, b) => {
       const next = Math.max(a, b) + 1;
       if (Math.abs(a - b) === 1 && Level.fit(next)) return next;

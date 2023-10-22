@@ -66,13 +66,12 @@ export const GameEngine = {
           ...prev,
           gameState: GameState.Deal,
           queues: {
-            create: pick(restPositions, 2).map((position) => ({
+            ...prev.queues,
+            create: pick(restPositions, 2).map((position, i) => ({
               type: "create",
-              level: 1,
+              level: utils.deal(i),
               position,
             })),
-            update: [],
-            destroy: [],
           },
         };
       }
@@ -184,20 +183,9 @@ export const GameEngine = {
           };
         }
 
-        const restPositions = getRestPositions(
-          prev.tiles.map((t) => t.position),
-        );
         return {
           ...prev,
-          gameState: GameState.Deal,
-          queues: {
-            ...prev.queues,
-            create: pick(restPositions, 2).map((position) => ({
-              type: "create",
-              level: 1,
-              position,
-            })),
-          },
+          gameState: GameState.Init,
         };
       }
     }
