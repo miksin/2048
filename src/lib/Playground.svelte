@@ -46,6 +46,40 @@
     }
   };
 
+  let touchStart: { x: number; y: number } = { x: 0, y: 0 };
+
+  const onTouchStart = (e: TouchEvent) => {
+    const touch = e.touches.item(0);
+    if (touch) {
+      console.log("start");
+      touchStart = {
+        x: touch.screenX,
+        y: touch.screenY,
+      };
+    }
+  };
+
+  const onTouchEnd = (e: TouchEvent) => {
+    const touch = e.changedTouches.item(0) ?? e.touches.item(0);
+    if (touch) {
+      const delta = {
+        x: touch.screenX - touchStart.x,
+        y: touch.screenY - touchStart.y,
+      };
+      if (Math.pow(delta.x, 2) + Math.pow(delta.y, 2) < Math.pow(80, 2)) {
+        return; // unreach threshold
+      }
+
+      if (Math.abs(delta.x) > Math.abs(delta.y)) {
+        if (delta.x > 0) onKeyDown("ArrowRight");
+        else onKeyDown("ArrowLeft");
+      } else {
+        if (delta.y > 0) onKeyDown("ArrowDown");
+        else onKeyDown("ArrowUp");
+      }
+    }
+  };
+
   const onRetry = () => {
     gameEngine = GameEngine.init();
   };
@@ -53,6 +87,8 @@
 
 <div
   class="relative h-80 w-80 rounded-md border-4 border-solid border-teal-400 bg-teal-400 xs:h-96 xs:w-96 sm:h-128 sm:w-128"
+  on:touchstart={onTouchStart}
+  on:touchend={onTouchEnd}
 >
   {#each gameEngine.tiles as tile (tile.key)}
     <TileContainer {tile} />
