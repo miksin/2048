@@ -93,37 +93,18 @@ export const GameEngine = {
       }
 
       case GameState.MoveLeft: {
-        const queues = GameEngine.init().queues;
-        const tiles = prev.tiles
-          .map((tile) => structuredClone(tile))
-          .sort((a, b) => a.position.x - b.position.x);
-        const tileMap = getTileMap(tiles);
-
-        tiles.forEach((target) => {
-          const y = target.position.y;
-          for (let x = target.position.x - 1; x >= -1; x -= 1) {
-            if (x < 0) {
-              const position = { x: x + 1, y } as Position;
-              moveTile(target, position, tileMap, queues);
-            } else {
-              const existTile = tileMap[x][y];
-              if (existTile) {
-                const nextLevel = utils.merge(existTile.level, target.level);
-                if (nextLevel === false) {
-                  const position = { x: x + 1, y } as Position;
-                  moveTile(target, position, tileMap, queues);
-                } else {
-                  mergeTile(target, existTile, nextLevel, tileMap, queues);
-                }
-                break;
-              }
-            }
-          }
-        });
         return {
           ...prev,
           gameState: GameState.Trasition,
-          queues,
+          queues: moveLeft(prev.tiles, utils.merge),
+        };
+      }
+
+      case GameState.MoveRight: {
+        return {
+          ...prev,
+          gameState: GameState.Trasition,
+          queues: moveRight(prev.tiles, utils.merge),
         };
       }
 
@@ -227,4 +208,62 @@ const mergeTile = (
     level,
   };
   tileMap[target.position.x][target.position.y] = null;
+};
+
+const moveLeft = (
+  rawTiles: Tile[],
+  merge: (a: Level, b: Level) => Level | false,
+) => {
+  const queues = GameEngine.init().queues;
+  const tiles = rawTiles
+    .map((tile) => structuredClone(tile))
+    .sort((a, b) => a.position.x - b.position.x);
+  const tileMap = getTileMap(tiles);
+
+  tiles.forEach((target) => {
+    const y = target.position.y;
+    for (let x = target.position.x - 1; x >= -1; x -= 1) {
+      if (x < 0) {
+        const position = { x: x + 1, y } as Position;
+        moveTile(target, position, tileMap, queues);
+      } else {
+        const existTile = tileMap[x][y];
+        if (existTile) {
+          const nextLevel = merge(existTile.level, target.level);
+          if (nextLevel === false) {
+            const position = { x: x + 1, y } as Position;
+            moveTile(target, position, tileMap, queues);
+          } else {
+            mergeTile(target, existTile, nextLevel, tileMap, queues);
+          }
+          break;
+        }
+      }
+    }
+  });
+  return queues;
+};
+
+const moveRight = (
+  rawTiles: Tile[],
+  merge: (a: Level, b: Level) => Level | false,
+): Queues => {
+  const transposedTiles = rawTiles.map((t) => ({
+    ...t,
+    position: {
+      x: Position.dimensionX.length - 1 - t.position.x,
+      y: t.position.y,
+    } as Position,
+  }));
+  const queues = moveLeft(transposedTiles, merge);
+  return {
+    ...queues,
+    update: queues.update.map((u) => ({
+      ...u,
+      position: {
+        x: Position.dimensionX.length - 1 - u.position.x,
+        y: u.position.y,
+      } as Position,
+    })),
+  };
 };
