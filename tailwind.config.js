@@ -1,4 +1,4 @@
-/** @type {import('tailwindcss').Config} */
+/** @type {import("tailwindcss").Config} */
 import defaultTheme from "tailwindcss/defaultTheme";
 
 export default {
@@ -14,6 +14,15 @@ export default {
       ...defaultTheme.fontFamily,
     },
     extend: {
+      height: {
+        screen: ["100dvh", "100vh"],
+      },
+      minHeight: {
+        screen: ["100dvh", "100vh"],
+      },
+      maxHeight: {
+        screen: ["100dvh", "100vh"],
+      },
       spacing: {
         128: "32rem",
       },
