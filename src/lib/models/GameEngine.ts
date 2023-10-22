@@ -234,7 +234,7 @@ const move = (
 ) => {
   const queues = GameEngine.init().queues;
   const tiles = rawTiles
-    .map(tile => ({
+    .map((tile) => ({
       ...tile,
       position: transpose(tile.position),
     }))
@@ -276,19 +276,26 @@ const size = Position.dimensionX.length - 1;
 const moveLeft = (
   rawTiles: Tile[],
   merge: (a: Level, b: Level) => Level | false,
-): Queues => move(rawTiles, merge, p => p);
+): Queues => move(rawTiles, merge, (p) => p);
 
 const moveRight = (
   rawTiles: Tile[],
   merge: (a: Level, b: Level) => Level | false,
-): Queues => move(rawTiles, merge, p => ({ x: size - p.x, y: p.y } as Position));
+): Queues =>
+  move(rawTiles, merge, (p) => ({ x: size - p.x, y: p.y }) as Position);
 
 const moveDown = (
   rawTiles: Tile[],
   merge: (a: Level, b: Level) => Level | false,
-): Queues => move(rawTiles, merge, p => ({ x: size - p.y, y: p.x } as Position), p => ({ x: p.y, y: size - p.x }) as Position);
+): Queues =>
+  move(
+    rawTiles,
+    merge,
+    (p) => ({ x: size - p.y, y: p.x }) as Position,
+    (p) => ({ x: p.y, y: size - p.x }) as Position,
+  );
 
 const moveUp = (
   rawTiles: Tile[],
   merge: (a: Level, b: Level) => Level | false,
-): Queues => move(rawTiles, merge, p => ({ x: p.y, y: p.x } as Position));
+): Queues => move(rawTiles, merge, (p) => ({ x: p.y, y: p.x }) as Position);

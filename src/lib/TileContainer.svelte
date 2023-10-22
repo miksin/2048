@@ -44,7 +44,7 @@
 </script>
 
 <div
-  class={`absolute h-1/4 w-1/4 border-4 border-solid border-transparent transition-all duration-300 ${xToLeftClass[x]} ${yToTopClass[y]} ${levelToZClass[level]}`}
+  class={`absolute h-1/4 w-1/4 animate-appear border-4 border-solid border-transparent transition-all duration-150 ${xToLeftClass[x]} ${yToTopClass[y]} ${levelToZClass[level]}`}
 >
   <div
     class={`flex h-full w-full items-center justify-center overflow-hidden rounded ${LevelToBgClass[level]}`}

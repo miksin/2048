@@ -35,6 +35,19 @@ export default {
           950: "#800075",
         },
       },
+      keyframes: {
+        appear: {
+          "0%": {
+            scale: "0.2",
+          },
+          "100%": {
+            scale: "1",
+          },
+        },
+      },
+      animation: {
+        appear: "appear 150ms ease-in-out",
+      },
     },
   },
   plugins: [],
