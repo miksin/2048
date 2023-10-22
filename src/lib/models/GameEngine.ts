@@ -62,14 +62,17 @@ export const GameEngine = {
         const restPositions = getRestPositions(
           prev.tiles.map((t) => t.position),
         );
+        const firstDeal = prev.tiles.length === 0;
+        const initLevels = firstDeal ? utils.init() : undefined;
+        const pickNum = firstDeal ? 2 : 1;
         return {
           ...prev,
           gameState: GameState.Deal,
           queues: {
             ...prev.queues,
-            create: pick(restPositions, 2).map((position, i) => ({
+            create: pick(restPositions, pickNum).map((position, i) => ({
               type: "create",
-              level: utils.deal(i),
+              level: initLevels?.[i] ?? utils.deal(),
               position,
             })),
           },
