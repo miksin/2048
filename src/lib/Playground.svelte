@@ -44,6 +44,10 @@
       );
     }
   };
+
+  const onRetry = () => {
+    gameEngine = GameEngine.init();
+  };
 </script>
 
 <div
@@ -53,11 +57,22 @@
     <TileContainer {tile} />
   {/each}
   <div
-    class="absolute z-[100] h-full w-full bg-black transition-opacity duration-150"
+    class="absolute z-[100] flex h-full w-full flex-col items-center justify-center gap-8 rounded bg-black/50 text-neutral-50 transition-opacity duration-150"
     class:opacity-0={!disabled}
-    class:opacity-80={disabled}
     class:pointer-events-none={!disabled}
-  />
+  >
+    <h1
+      class="font-dosis text-2xl font-bold !leading-narrow xs:text-xl sm:text-3xl"
+    >
+      {gameEngine.gameState === GameState.Win ? "WIN" : "LOSE"}
+    </h1>
+    <button
+      class="rounded-md bg-teal-950 px-6 py-2 hover:bg-teal-700 active:bg-teal-800"
+      on:click={onRetry}
+    >
+      Retry
+    </button>
+  </div>
 </div>
 
 <svelte:window on:keydown|preventDefault={(e) => onKeyDown(e.key)} />
