@@ -1,6 +1,6 @@
 import { getRestPositions, getTileMap, pick } from "$lib/utils";
 import type { GameModeUtils } from "./GameMode";
-import { Position, type Level, Tile } from "./Tile";
+import { Position, Level, Tile } from "./Tile";
 
 export const GameState = {
   Init: "init",
@@ -84,9 +84,24 @@ export const GameEngine = {
             Tile.new({ level, position }),
           ),
         ];
+        const nextState = (() => {
+          if (
+            tiles.length ===
+            Position.dimensionX.length * Position.dimensionY.length
+          ) {
+            const operations = [
+              moveLeft(tiles, utils.merge).update.length,
+              moveRight(tiles, utils.merge).update.length,
+              moveDown(tiles, utils.merge).update.length,
+              moveUp(tiles, utils.merge).update.length,
+            ];
+            if (operations.every((o) => o === 0)) return GameState.Lose;
+          }
+          return GameState.Play;
+        })();
         return {
           ...prev,
-          gameState: GameState.Play,
+          gameState: nextState,
           queues: { ...prev.queues, create: [] },
           tiles,
         };
@@ -162,6 +177,13 @@ export const GameEngine = {
       }
 
       case GameState.Check: {
+        if (prev.tiles.some((t) => t.level === Level.max)) {
+          return {
+            ...prev,
+            gameState: GameState.Win,
+          };
+        }
+
         const restPositions = getRestPositions(
           prev.tiles.map((t) => t.position),
         );

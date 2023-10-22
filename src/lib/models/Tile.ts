@@ -14,7 +14,8 @@ type IntRange<F extends number, T extends number> = Exclude<
 
 export type Level = IntRange<1, 12>;
 export const Level = {
-  fit: (x: number): x is Level => Number.isInteger(x) && x >= 1 && x < 12,
+  max: 11,
+  fit: (x: number): x is Level => Number.isInteger(x) && x >= 1 && x <= 11,
 } as const;
 
 export type Position = {

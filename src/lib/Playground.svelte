@@ -7,6 +7,10 @@
   $: utils = GameModeUtils[$gameMode];
   let gameEngine = GameEngine.init();
 
+  $: disabled =
+    gameEngine.gameState === GameState.Win ||
+    gameEngine.gameState === GameState.Lose;
+
   $: {
     const next = GameEngine.next(gameEngine, utils);
     if (gameEngine.gameState !== next.gameState) {
@@ -48,6 +52,12 @@
   {#each gameEngine.tiles as tile (tile.key)}
     <TileContainer {tile} />
   {/each}
+  <div
+    class="absolute z-[100] h-full w-full bg-black transition-opacity duration-150"
+    class:opacity-0={!disabled}
+    class:opacity-80={disabled}
+    class:pointer-events-none={!disabled}
+  />
 </div>
 
 <svelte:window on:keydown|preventDefault={(e) => onKeyDown(e.key)} />
