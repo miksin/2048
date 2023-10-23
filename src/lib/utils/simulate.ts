@@ -1,4 +1,5 @@
-import { GameEngine, GameState, type Queues } from "$lib/models/GameEngine";
+import { GameState } from "$lib/models/GameState";
+import { Queues } from "$lib/models/Queues";
 import { type Tile, Position, type Level } from "$lib/models/Tile";
 
 const getTileMap = (tiles: Tile[]) => {
@@ -45,7 +46,7 @@ const simulateMoveLeft = (
 	transpose: (p: Position) => Position,
 	reverse: (p: Position) => Position = transpose,
 ) => {
-	const queues = GameEngine.init().queues;
+	const queues = Queues.init();
 	const tiles = rawTiles
 		.map((tile) => ({
 			...tile,

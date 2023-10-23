@@ -1,29 +1,8 @@
 import { getRestPositions, getUniqKey, pick, simulate } from "$lib/utils";
 import type { GameModeUtils } from "./GameMode";
+import { GameState } from "./GameState";
+import type { Queues } from "./Queues";
 import { Position, Level, type Tile } from "./Tile";
-
-export const GameState = {
-	Init: "init",
-	Deal: "deal",
-	Play: "play",
-	MoveLeft: "moveLeft",
-	MoveRight: "moveRight",
-	MoveUp: "moveUp",
-	MoveDown: "moveDown",
-	Transition: "transition",
-	Transitioning: "transitioning",
-	Destroy: "destroy",
-	Check: "check",
-	Win: "win",
-	Lose: "lose",
-} as const;
-export type GameState = (typeof GameState)[keyof typeof GameState];
-
-export type Queues = {
-	create: Tile[];
-	update: Tile[];
-	destroy: Tile[];
-};
 
 export type GameEngine = {
 	gameState: GameState;

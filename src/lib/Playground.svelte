@@ -1,8 +1,9 @@
 <script lang="ts">
 	import Button from "./Button.svelte";
 	import TileContainer from "./TileContainer.svelte";
-	import { GameEngine, GameState } from "./models/GameEngine";
+	import { GameEngine } from "./models/GameEngine";
 	import { GameModeUtils } from "./models/GameMode";
+	import { GameState } from "./models/GameState";
 	import { gameMode } from "./store";
 
 	$: utils = GameModeUtils[$gameMode];
