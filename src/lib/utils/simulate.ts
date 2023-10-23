@@ -54,24 +54,24 @@ const simulateMoveLeft = (
 		}))
 		.sort((a, b) => a.position.x - b.position.x);
 	const tileMap = getTileMap(tiles);
+	const merged = new Set<number>();
 
 	tiles.forEach((target) => {
-		let bound = 0;
 		const y = target.position.y;
-		for (let x = target.position.x - 1; x >= bound - 1; x -= 1) {
-			if (x < bound) {
+		for (let x = target.position.x - 1; x >= -1; x -= 1) {
+			if (x < 0) {
 				const position = { x: x + 1, y } as Position;
 				moveTile(target, position, tileMap, queues);
 			} else {
 				const existTile = tileMap[x][y];
 				if (existTile) {
 					const nextLevel = merge(existTile.level, target.level);
-					if (nextLevel === false) {
+					if (nextLevel === false || merged.has(existTile.key)) {
 						const position = { x: x + 1, y } as Position;
 						moveTile(target, position, tileMap, queues);
 					} else {
-						bound = existTile.position.x;
 						mergeTile(target, existTile, nextLevel, tileMap, queues);
+						merged.add(existTile.key);
 					}
 					break;
 				}
