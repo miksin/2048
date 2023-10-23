@@ -23,8 +23,11 @@ export type Position = {
   y: IntRange<0, 4>;
 };
 export const Position = {
-  dimensionX: [0, 1, 2, 3],
-  dimensionY: [0, 1, 2, 3],
+  size: 4,
+  all: () =>
+    [0, 1, 2, 3].flatMap((x) =>
+      [0, 1, 2, 3].map((y) => ({ x, y })),
+    ) as Position[],
 } as const;
 
 export type Tile = {
