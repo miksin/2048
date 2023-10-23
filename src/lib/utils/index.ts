@@ -1,4 +1,4 @@
-import { Position, Tile } from "./models/Tile";
+import { Position, Tile } from "../models/Tile";
 
 let incrementNum = 0;
 export const getUniqKey = () => incrementNum++;
