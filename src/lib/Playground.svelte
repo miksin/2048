@@ -15,7 +15,7 @@
   $: {
     const next = GameEngine.next(gameEngine, utils);
     if (gameEngine.gameState !== next.gameState) {
-      const delay = gameEngine.gameState === GameState.Trasitioning ? 150 : 0;
+      const delay = gameEngine.gameState === GameState.Transitioning ? 150 : 0;
       setTimeout(() => {
         gameEngine = next;
       }, delay);

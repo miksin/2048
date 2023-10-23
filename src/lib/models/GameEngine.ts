@@ -10,8 +10,8 @@ export const GameState = {
   MoveRight: "moveRight",
   MoveUp: "moveUp",
   MoveDown: "moveDown",
-  Trasition: "transition",
-  Trasitioning: "transitioning",
+  Transition: "transition",
+  Transitioning: "transitioning",
   Destroy: "destroy",
   Check: "check",
   Win: "win",
@@ -117,12 +117,12 @@ export const GameEngine = {
         }
         return {
           ...prev,
-          gameState: GameState.Trasition,
+          gameState: GameState.Transition,
           queues,
         };
       }
 
-      case GameState.Trasition: {
+      case GameState.Transition: {
         const tiles = prev.tiles.slice();
         prev.queues.update.forEach(({ key, level, position }) => {
           const index = tiles.findIndex((t) => t.key === key);
@@ -130,7 +130,7 @@ export const GameEngine = {
         });
         return {
           ...prev,
-          gameState: GameState.Trasitioning,
+          gameState: GameState.Transitioning,
           queues: {
             ...prev.queues,
             update: [],
@@ -139,7 +139,7 @@ export const GameEngine = {
         };
       }
 
-      case GameState.Trasitioning: {
+      case GameState.Transitioning: {
         return {
           ...prev,
           gameState: GameState.Destroy,
