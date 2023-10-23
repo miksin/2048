@@ -236,9 +236,10 @@ const simulateMoveLeft = (
   const tileMap = getTileMap(tiles);
 
   tiles.forEach((target) => {
+    let bound = 0;
     const y = target.position.y;
-    for (let x = target.position.x - 1; x >= -1; x -= 1) {
-      if (x < 0) {
+    for (let x = target.position.x - 1; x >= bound - 1; x -= 1) {
+      if (x < bound) {
         const position = { x: x + 1, y } as Position;
         moveTile(target, position, tileMap, queues);
       } else {
@@ -249,6 +250,7 @@ const simulateMoveLeft = (
             const position = { x: x + 1, y } as Position;
             moveTile(target, position, tileMap, queues);
           } else {
+            bound = existTile.position.x;
             mergeTile(target, existTile, nextLevel, tileMap, queues);
           }
           break;
