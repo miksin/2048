@@ -1,4 +1,4 @@
-import { getRestPositions, getTileMap, pick } from "$lib/utils";
+import { getRestPositions, pick, simulate } from "$lib/utils";
 import type { GameModeUtils } from "./GameMode";
 import { Position, Level, Tile } from "./Tile";
 
@@ -10,8 +10,8 @@ export const GameState = {
   MoveRight: "moveRight",
   MoveUp: "moveUp",
   MoveDown: "moveDown",
-  Trasition: "transition",
-  Trasitioning: "transitioning",
+  Transition: "transition",
+  Transitioning: "transitioning",
   Destroy: "destroy",
   Check: "check",
   Win: "win",
@@ -34,7 +34,7 @@ type TileDestroy = {
   key: number;
 };
 
-type Queues = {
+export type Queues = {
   create: TileCreate[];
   update: TileUpdate[];
   destroy: TileDestroy[];
@@ -87,16 +87,10 @@ export const GameEngine = {
           ),
         ];
         const nextState = (() => {
-          if (
-            tiles.length ===
-            Position.dimensionX.length * Position.dimensionY.length
-          ) {
-            const operations = [
-              moveLeft(tiles, utils.merge).update.length,
-              moveRight(tiles, utils.merge).update.length,
-              moveDown(tiles, utils.merge).update.length,
-              moveUp(tiles, utils.merge).update.length,
-            ];
+          if (tiles.length === Math.pow(Position.size, 2)) {
+            const operations = Object.values(simulate).map(
+              (s) => s(tiles, utils.merge).update.length,
+            );
             if (operations.every((o) => o === 0)) return GameState.Lose;
           }
           return GameState.Play;
@@ -109,39 +103,25 @@ export const GameEngine = {
         };
       }
 
-      case GameState.MoveLeft: {
-        return {
-          ...prev,
-          gameState: GameState.Trasition,
-          queues: moveLeft(prev.tiles, utils.merge),
-        };
-      }
-
-      case GameState.MoveRight: {
-        return {
-          ...prev,
-          gameState: GameState.Trasition,
-          queues: moveRight(prev.tiles, utils.merge),
-        };
-      }
-
-      case GameState.MoveDown: {
-        return {
-          ...prev,
-          gameState: GameState.Trasition,
-          queues: moveDown(prev.tiles, utils.merge),
-        };
-      }
-
+      case GameState.MoveLeft:
+      case GameState.MoveRight:
+      case GameState.MoveDown:
       case GameState.MoveUp: {
+        const queues = simulate[prev.gameState](prev.tiles, utils.merge);
+        if (queues.update.length < 1) {
+          return {
+            ...prev,
+            gameState: GameState.Play,
+          };
+        }
         return {
           ...prev,
-          gameState: GameState.Trasition,
-          queues: moveUp(prev.tiles, utils.merge),
+          gameState: GameState.Transition,
+          queues,
         };
       }
 
-      case GameState.Trasition: {
+      case GameState.Transition: {
         const tiles = prev.tiles.slice();
         prev.queues.update.forEach(({ key, level, position }) => {
           const index = tiles.findIndex((t) => t.key === key);
@@ -149,7 +129,7 @@ export const GameEngine = {
         });
         return {
           ...prev,
-          gameState: GameState.Trasitioning,
+          gameState: GameState.Transitioning,
           queues: {
             ...prev.queues,
             update: [],
@@ -158,7 +138,7 @@ export const GameEngine = {
         };
       }
 
-      case GameState.Trasitioning: {
+      case GameState.Transitioning: {
         return {
           ...prev,
           gameState: GameState.Destroy,
@@ -195,120 +175,3 @@ export const GameEngine = {
     return prev;
   },
 };
-
-const moveTile = (
-  target: Tile,
-  to: Position,
-  tileMap: (Tile | null)[][],
-  queues: Queues,
-) => {
-  if (to.x === target.position.x && to.y === target.position.y) return;
-
-  tileMap[target.position.x][target.position.y] = null;
-  tileMap[to.x][to.y] = { ...target, position: to };
-  queues.update.push({
-    key: target.key,
-    level: target.level,
-    position: to,
-  });
-};
-
-const mergeTile = (
-  target: Tile,
-  exist: Tile,
-  level: Level,
-  tileMap: (Tile | null)[][],
-  queues: Queues,
-) => {
-  queues.update.push({
-    key: exist.key,
-    level,
-    position: exist.position,
-  });
-  queues.update.push({
-    ...target,
-    position: exist.position,
-  });
-  queues.destroy.push({
-    key: target.key,
-  });
-  tileMap[exist.position.x][exist.position.y] = {
-    ...exist,
-    level,
-  };
-  tileMap[target.position.x][target.position.y] = null;
-};
-
-const move = (
-  rawTiles: Tile[],
-  merge: (a: Level, b: Level) => Level | false,
-  transpose: (p: Position) => Position,
-  reverse: (p: Position) => Position = transpose,
-) => {
-  const queues = GameEngine.init().queues;
-  const tiles = rawTiles
-    .map((tile) => ({
-      ...tile,
-      position: transpose(tile.position),
-    }))
-    .sort((a, b) => a.position.x - b.position.x);
-  const tileMap = getTileMap(tiles);
-
-  tiles.forEach((target) => {
-    const y = target.position.y;
-    for (let x = target.position.x - 1; x >= -1; x -= 1) {
-      if (x < 0) {
-        const position = { x: x + 1, y } as Position;
-        moveTile(target, position, tileMap, queues);
-      } else {
-        const existTile = tileMap[x][y];
-        if (existTile) {
-          const nextLevel = merge(existTile.level, target.level);
-          if (nextLevel === false) {
-            const position = { x: x + 1, y } as Position;
-            moveTile(target, position, tileMap, queues);
-          } else {
-            mergeTile(target, existTile, nextLevel, tileMap, queues);
-          }
-          break;
-        }
-      }
-    }
-  });
-  return {
-    ...queues,
-    update: queues.update.map((u) => ({
-      ...u,
-      position: reverse(u.position),
-    })),
-  };
-};
-
-const size = Position.dimensionX.length - 1;
-
-const moveLeft = (
-  rawTiles: Tile[],
-  merge: (a: Level, b: Level) => Level | false,
-): Queues => move(rawTiles, merge, (p) => p);
-
-const moveRight = (
-  rawTiles: Tile[],
-  merge: (a: Level, b: Level) => Level | false,
-): Queues =>
-  move(rawTiles, merge, (p) => ({ x: size - p.x, y: p.y }) as Position);
-
-const moveDown = (
-  rawTiles: Tile[],
-  merge: (a: Level, b: Level) => Level | false,
-): Queues =>
-  move(
-    rawTiles,
-    merge,
-    (p) => ({ x: size - p.y, y: p.x }) as Position,
-    (p) => ({ x: p.y, y: size - p.x }) as Position,
-  );
-
-const moveUp = (
-  rawTiles: Tile[],
-  merge: (a: Level, b: Level) => Level | false,
-): Queues => move(rawTiles, merge, (p) => ({ x: p.y, y: p.x }) as Position);
