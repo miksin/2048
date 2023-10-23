@@ -1,8 +1,9 @@
 <script lang="ts">
 	import Button from "./Button.svelte";
 	import TileContainer from "./TileContainer.svelte";
-	import { GameEngine, GameState } from "./models/GameEngine";
+	import { GameEngine } from "./models/GameEngine";
 	import { GameModeUtils } from "./models/GameMode";
+	import { GameState } from "./models/GameState";
 	import { gameMode } from "./store";
 
 	$: utils = GameModeUtils[$gameMode];
@@ -88,7 +89,7 @@
 </script>
 
 <div
-	class="relative h-80 w-80 rounded-md border-4 border-solid border-teal-400 bg-teal-400 xs:h-96 xs:w-96 sm:h-128 sm:w-128"
+	class="playground relative h-80 w-80 rounded-md border-4 border-solid xs:h-96 xs:w-96 sm:h-128 sm:w-128"
 	on:touchstart={onTouchStart}
 	on:touchmove={preventTouchDefault}
 	on:touchend={onTouchEnd}
@@ -109,3 +110,10 @@
 </div>
 
 <svelte:window on:keydown|preventDefault={(e) => onKeyDown(e.key)} />
+
+<style>
+	.playground {
+		background-color: #a1a4f0;
+		border-color: #a1a4f0;
+	}
+</style>

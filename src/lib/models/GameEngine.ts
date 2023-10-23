@@ -1,44 +1,8 @@
-import { getRestPositions, pick, simulate } from "$lib/utils";
+import { getRestPositions, getUniqKey, pick, simulate } from "$lib/utils";
 import type { GameModeUtils } from "./GameMode";
-import { Position, Level, Tile } from "./Tile";
-
-export const GameState = {
-	Init: "init",
-	Deal: "deal",
-	Play: "play",
-	MoveLeft: "moveLeft",
-	MoveRight: "moveRight",
-	MoveUp: "moveUp",
-	MoveDown: "moveDown",
-	Transition: "transition",
-	Transitioning: "transitioning",
-	Destroy: "destroy",
-	Check: "check",
-	Win: "win",
-	Lose: "lose",
-} as const;
-export type GameState = (typeof GameState)[keyof typeof GameState];
-
-type TileCreate = {
-	level: Level;
-	position: Position;
-};
-
-type TileUpdate = {
-	key: number;
-	level: Level;
-	position: Position;
-};
-
-type TileDestroy = {
-	key: number;
-};
-
-export type Queues = {
-	create: TileCreate[];
-	update: TileUpdate[];
-	destroy: TileDestroy[];
-};
+import { GameState } from "./GameState";
+import type { Queues } from "./Queues";
+import { Position, Level, type Tile } from "./Tile";
 
 export type GameEngine = {
 	gameState: GameState;
@@ -61,27 +25,26 @@ export const GameEngine = {
 			case GameState.Init: {
 				const restPositions = getRestPositions(prev.tiles.map((t) => t.position));
 				const firstDeal = prev.tiles.length === 0;
-				const initLevels = firstDeal ? utils.init() : undefined;
 				const pickNum = firstDeal ? 2 : 1;
 				return {
 					...prev,
 					gameState: GameState.Deal,
 					queues: {
 						...prev.queues,
-						create: pick(restPositions, pickNum).map((position, i) => ({
-							type: "create",
-							level: initLevels?.[i] ?? utils.deal(),
-							position,
-						})),
+						create: pick(restPositions, pickNum).map((position) => {
+							const key = getUniqKey();
+							return {
+								key,
+								level: utils.deal(key),
+								position,
+							};
+						}),
 					},
 				};
 			}
 
 			case GameState.Deal: {
-				const tiles = [
-					...prev.tiles,
-					...prev.queues.create.map(({ level, position }) => Tile.new({ level, position })),
-				];
+				const tiles = [...prev.tiles, ...prev.queues.create];
 				const nextState = (() => {
 					if (tiles.length === Math.pow(Position.size, 2)) {
 						const operations = Object.values(simulate).map((s) => s(tiles, utils.merge).update.length);

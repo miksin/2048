@@ -5,6 +5,6 @@
 	$: ({ render } = GameModeUtils[$gameMode]);
 </script>
 
-<h1 class="font-pixel text-7xl text-teal-950 sm:text-8xl">
+<h1 class="font-dosis text-7xl text-neutral-950 sm:text-8xl">
 	{render(11)}
 </h1>
