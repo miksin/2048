@@ -1,5 +1,3 @@
-import { getUniqKey } from "$lib/utils";
-
 type Enumerate<N extends number, Acc extends number[] = []> = Acc["length"] extends N
 	? Acc[number]
 	: Enumerate<N, [...Acc, Acc["length"]]>;
@@ -25,13 +23,4 @@ export type Tile = {
 	key: number;
 	level: Level;
 	position: Position;
-};
-
-export const Tile = {
-	new: (args?: Partial<Tile>): Tile => ({
-		key: getUniqKey(),
-		level: 1,
-		position: { x: 0, y: 0 },
-		...args,
-	}),
 };

@@ -31,9 +31,7 @@ const mergeTile = (target: Tile, exist: Tile, level: Level, tileMap: (Tile | nul
 		...target,
 		position: exist.position,
 	});
-	queues.destroy.push({
-		key: target.key,
-	});
+	queues.destroy.push(target);
 	tileMap[exist.position.x][exist.position.y] = {
 		...exist,
 		level,
