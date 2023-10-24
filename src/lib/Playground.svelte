@@ -105,7 +105,7 @@
 		<h1 class="font-dosis text-2xl font-bold !leading-narrow xs:text-xl sm:text-3xl">
 			{gameEngine.gameState === GameState.Win ? "WIN" : "LOSE"}
 		</h1>
-		<Button handleClick={onRetry}>Retry</Button>
+		<Button on:click={onRetry}>Retry</Button>
 	</div>
 </div>
 
