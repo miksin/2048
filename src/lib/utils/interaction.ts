@@ -24,12 +24,11 @@ export const useInteraction = (onInteraction: (key: Key) => void, disabled: bool
 	};
 
 	const preventTouchDefault = (e: TouchEvent) => {
-		if (!disabled && e.cancelable) {
-			e.preventDefault();
-		}
+		if (e.cancelable) e.preventDefault();
 	};
 
 	const onTouchStart = (e: TouchEvent) => {
+		if (disabled) return;
 		preventTouchDefault(e);
 		const touch = e.touches.item(0);
 		if (touch) {
@@ -40,7 +39,13 @@ export const useInteraction = (onInteraction: (key: Key) => void, disabled: bool
 		}
 	};
 
+	const onTouchMove = (e: TouchEvent) => {
+		if (disabled) return;
+		preventTouchDefault(e);
+	};
+
 	const onTouchEnd = (e: TouchEvent) => {
+		if (disabled) return;
 		preventTouchDefault(e);
 		const touch = e.changedTouches.item(0) ?? e.touches.item(0);
 		if (touch) {
@@ -66,6 +71,6 @@ export const useInteraction = (onInteraction: (key: Key) => void, disabled: bool
 		onKeyDown,
 		onTouchStart,
 		onTouchEnd,
-		onTouchMove: preventTouchDefault,
+		onTouchMove,
 	};
 };
