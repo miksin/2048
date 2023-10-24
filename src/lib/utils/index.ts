@@ -16,3 +16,4 @@ export const pick = <T>(candidates: T[], needs: number): T[] => {
 };
 
 export * from "./simulate";
+export * from "./interaction";
