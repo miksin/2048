@@ -1,10 +1,11 @@
-import { getRestPositions, getUniqKey, pick, simulate } from "$lib/utils";
+import { getRestPositions, pick, simulate } from "$lib/utils";
 import type { GameModeUtils } from "./GameMode";
 import { GameState } from "./GameState";
 import type { Queues } from "./Queues";
 import { Position, Level, type Tile } from "./Tile";
 
 export type GameEngine = {
+	nextKey: number;
 	gameState: GameState;
 	queues: Queues;
 	tiles: Tile[];
@@ -12,6 +13,7 @@ export type GameEngine = {
 
 export const GameEngine = {
 	init: (): GameEngine => ({
+		nextKey: 0,
 		gameState: GameState.Init,
 		queues: {
 			create: [],
@@ -28,11 +30,12 @@ export const GameEngine = {
 				const pickNum = firstDeal ? 2 : 1;
 				return {
 					...prev,
+					nextKey: prev.nextKey + pickNum,
 					gameState: GameState.Deal,
 					queues: {
 						...prev.queues,
-						create: pick(restPositions, pickNum).map((position) => {
-							const key = getUniqKey();
+						create: pick(restPositions, pickNum).map((position, i) => {
+							const key = prev.nextKey + i;
 							return {
 								key,
 								level: utils.deal(key),

@@ -1,8 +1,5 @@
 import { Position } from "../models/Tile";
 
-let incrementNum = 0;
-export const getUniqKey = () => incrementNum++;
-
 export const getRestPositions = (positions: Position[]): Position[] => {
 	return Position.all().filter((ap) => positions.every((p) => ap.x !== p.x || ap.y !== p.y));
 };

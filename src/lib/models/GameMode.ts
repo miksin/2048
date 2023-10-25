@@ -2,7 +2,6 @@ import { Level } from "./Tile";
 
 export const GameMode = {
 	Decimal: "decimal",
-	Binary: "binary",
 	Rome: "rome",
 	Fibonacci: "fibonacci",
 } as const;
@@ -25,10 +24,6 @@ const defaultGameModeUtils: GameModeUtils = {
 };
 
 export const GameModeUtils: Record<GameMode, GameModeUtils> = {
-	[GameMode.Binary]: {
-		...defaultGameModeUtils,
-		render: (level) => Math.pow(2, level).toString(2).padStart(12, "0"),
-	},
 	[GameMode.Decimal]: {
 		...defaultGameModeUtils,
 		render: (level) => `${Math.pow(2, level)}`,
@@ -64,7 +59,7 @@ export const GameModeUtils: Record<GameMode, GameModeUtils> = {
 	},
 	[GameMode.Fibonacci]: {
 		...defaultGameModeUtils,
-		deal: (key) => (key % 2 === 0 ? 2 : 1),
+		deal: (key) => (key % 2 === 0 ? 1 : 2),
 		merge: (a, b) => {
 			const next = Math.max(a, b) + 1;
 			if (Math.abs(a - b) === 1 && Level.fit(next)) return next;
