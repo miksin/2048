@@ -12,7 +12,7 @@
 	class={`flex h-full w-full items-center justify-center overflow-hidden rounded transition-colors duration-150 bg-tile-${level}`}
 >
 	<h6
-		class="break-all font-dosis text-2xl font-bold !leading-narrow xs:text-4xl sm:text-5xl"
+		class="break-all text-2xl font-bold !leading-narrow xs:text-4xl sm:text-5xl"
 		class:text-neutral-950={level <= 1}
 		class:text-neutral-50={level > 1}
 	>

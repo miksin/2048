@@ -65,7 +65,7 @@
 		class:opacity-0={!disabled}
 		class:pointer-events-none={!disabled}
 	>
-		<h1 class="font-dosis text-2xl font-bold !leading-narrow xs:text-xl sm:text-3xl">
+		<h1 class="text-2xl font-bold !leading-narrow xs:text-xl sm:text-3xl">
 			{gameEngine.gameState === GameState.Win ? "WIN" : "LOSE"}
 		</h1>
 		<Button on:click={onRetry}>Retry</Button>
