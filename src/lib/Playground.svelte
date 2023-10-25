@@ -44,7 +44,7 @@
 </script>
 
 <div
-	class="playground relative h-80 w-80 rounded-md border-4 border-solid xs:h-96 xs:w-96 sm:h-128 sm:w-128"
+	class="playground relative h-80 w-80 rounded-md border-4 xs:border-6 sm:border-8 border-solid xs:h-96 xs:w-96 sm:h-128 sm:w-128"
 	on:touchstart={onTouchStart}
 	on:touchmove={onTouchMove}
 	on:touchend={onTouchEnd}
