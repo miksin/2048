@@ -13,7 +13,7 @@
 </script>
 
 <div
-	class={`absolute h-1/4 w-1/4 animate-appear border-4 xs:border-6 sm:border-8 border-solid border-transparent transition-all duration-150 tile-x-${x} tile-y-${y} tile-z-${level}`}
+	class={`xs:border-6 absolute h-1/4 w-1/4 animate-appear border-4 border-solid border-transparent transition-all duration-150 sm:border-8 tile-x-${x} tile-y-${y} tile-z-${level}`}
 >
 	<div
 		class={`flex h-full w-full items-center justify-center overflow-hidden rounded transition-colors duration-150 bg-tile-${level}`}
