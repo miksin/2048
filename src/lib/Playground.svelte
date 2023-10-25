@@ -1,6 +1,6 @@
 <script lang="ts">
 	import Button from "./Button.svelte";
-	import TileContainer from "./TileContainer.svelte";
+	import TileBox from "./TileBox.svelte";
 	import { GameEngine } from "./models/GameEngine";
 	import { GameModeUtils } from "./models/GameMode";
 	import { GameState } from "./models/GameState";
@@ -57,7 +57,7 @@
 		<div
 			class={`xs:border-6 absolute left-0 top-0 h-1/4 w-1/4 animate-appear border-4 border-solid border-transparent transition-all duration-150 sm:border-8 tile-x-${x}-y-${y} tile-z-${level}`}
 		>
-			<TileContainer {level} />
+			<TileBox {level} />
 		</div>
 	{/each}
 	<div
