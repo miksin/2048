@@ -6,6 +6,7 @@ import { Position, Level, type Tile } from "./Tile";
 
 export type GameEngine = {
 	nextKey: number;
+	score: number;
 	gameState: GameState;
 	queues: Queues;
 	tiles: Tile[];
@@ -14,6 +15,7 @@ export type GameEngine = {
 export const GameEngine = {
 	init: (): GameEngine => ({
 		nextKey: 0,
+		score: 0,
 		gameState: GameState.Init,
 		queues: {
 			create: [],
@@ -83,12 +85,17 @@ export const GameEngine = {
 
 			case GameState.Transition: {
 				const tiles = prev.tiles.slice();
+				let score = prev.score;
 				prev.queues.update.forEach(({ key, level, position }) => {
 					const index = tiles.findIndex((t) => t.key === key);
+					if (tiles[index].level !== level) {
+						score += utils.value(level);
+					}
 					tiles[index] = { ...tiles[index], level, position };
 				});
 				return {
 					...prev,
+					score,
 					gameState: GameState.Transitioning,
 					queues: {
 						...prev.queues,
