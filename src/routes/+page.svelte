@@ -16,7 +16,7 @@
 	};
 </script>
 
-<div class="main mx-auto flex max-w-xs flex-col gap-8 overflow-hidden pt-8 xs:max-w-sm sm:max-w-lg">
+<div class="main mx-auto flex max-w-xs flex-col gap-4 overflow-hidden pt-8 xs:max-w-sm sm:max-w-lg">
 	<GameTitle />
 	{#key playgroundKey}
 		<Playground />

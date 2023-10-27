@@ -1,5 +1,6 @@
 <script lang="ts">
 	import Button from "./Button.svelte";
+	import ScoreList from "./ScoreList.svelte";
 	import TileBox from "./TileBox.svelte";
 	import { GameEngine } from "./models/GameEngine";
 	import { GameModeUtils } from "./models/GameMode";
@@ -42,6 +43,8 @@
 		gameEngine = GameEngine.init();
 	};
 </script>
+
+<ScoreList score={gameEngine.score} />
 
 <div
 	class="playground xs:border-6 relative h-80 w-80 rounded-md border-4 border-solid xs:h-96 xs:w-96 sm:h-128 sm:w-128 sm:border-8"
